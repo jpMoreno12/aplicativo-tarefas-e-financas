@@ -1,66 +1,206 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# TaskFinance - Aplicação de Produtividade e Finanças (MVP)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Uma aplicação web completa para gerenciamento de produtividade pessoal e finanças, desenvolvida com Laravel e Blade templates.
 
-## About Laravel
+## 🚀 Funcionalidades
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 📋 Gestão de Tarefas
+- **CRUD completo** de tarefas com categorização
+- **Sistema de subtarefas** para organização hierárquica
+- **Datas de vencimento** com alertas de atraso
+- **Sistema de recompensas** para motivação
+- **Marcação de conclusão** com histórico
+- **Filtros avançados** por categoria, meta e status
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 🎯 Gestão de Metas
+- **Criação de metas** com descrições detalhadas
+- **Vinculação de tarefas** às metas
+- **Acompanhamento de progresso** visual
+- **Dashboard de metas ativas**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 🏷️ Categorização
+- **Sistema de categorias** personalizáveis
+- **Organização por contexto** (trabalho, pessoal, estudos, etc.)
+- **Estatísticas por categoria**
 
-## Learning Laravel
+### 💰 Controle Financeiro
+- **Registro de despesas** com categorização
+- **Definição de renda mensal**
+- **Cálculo automático de saldo**
+- **Relatórios por categoria**
+- **Navegação por meses**
+- **Gráficos de gastos**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 📅 Calendário
+- **Visualização mensal** de tarefas
+- **Indicadores visuais** de status
+- **Navegação entre meses**
+- **Lista detalhada** de tarefas por data
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 📊 Dashboard
+- **Resumo do dia** com tarefas pendentes
+- **Metas ativas** em destaque
+- **Tarefas atrasadas** com alertas
+- **Histórico de conclusões**
+- **Estatísticas rápidas**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🛠️ Tecnologias Utilizadas
 
-## Laravel Sponsors
+- **Backend**: Laravel 10
+- **Frontend**: Blade Templates + Bootstrap 5
+- **Database**: MySQL/PostgreSQL/SQLite
+- **Icons**: Bootstrap Icons
+- **Styling**: Bootstrap 5 + CSS customizado
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 📦 Instalação e Configuração
 
-### Premium Partners
+### Pré-requisitos
+- PHP 8.1+
+- Composer
+- MySQL/PostgreSQL/SQLite
+- Node.js (opcional, para assets)
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Passo a Passo
 
-## Contributing
+1. **Clone o repositório**
+```bash
+git clone <repository-url>
+cd tcc-app-tarefas-financas-main
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+2. **Instale as dependências**
+```bash
+composer install
+```
 
-## Code of Conduct
+3. **Configure o ambiente**
+```bash
+# Copie o arquivo de ambiente (se não existir)
+cp .env.example .env
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# Gere a chave da aplicação
+php artisan key:generate
+```
 
-## Security Vulnerabilities
+4. **Configure o banco de dados**
+Edite o arquivo `.env` com suas credenciais:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=tcc_app_tarefas_financas
+DB_USERNAME=seu_usuario
+DB_PASSWORD=sua_senha
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Variáveis para futuras integrações
+AUTHENTICATOR_URL=
+AUTHORIZER_URL=
+```
 
-## License
+5. **Execute as migrações**
+```bash
+php artisan migrate
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+6. **Popule com dados de demonstração (opcional)**
+```bash
+php artisan db:seed --class=DemoSeeder
+```
+
+7. **Inicie o servidor**
+```bash
+php artisan serve
+```
+
+8. **Acesse a aplicação**
+Abra seu navegador em `http://localhost:8000`
+
+## 👤 Usuário de Demonstração
+
+Se você executou o seeder, pode fazer login com:
+- **Email**: demo@example.com
+- **Senha**: password
+
+## 🗂️ Estrutura do Projeto
+
+### Models
+- `User` - Usuários do sistema
+- `Category` - Categorias de tarefas
+- `Goal` - Metas/objetivos
+- `Task` - Tarefas (com suporte a subtarefas)
+- `Expense` - Despesas financeiras
+
+### Controllers
+- `DashboardController` - Dashboard principal
+- `TaskController` - Gestão de tarefas
+- `CategoryController` - Gestão de categorias
+- `GoalController` - Gestão de metas
+- `FinanceController` - Controle financeiro
+- `CalendarController` - Visualização em calendário
+- `Auth/LoginController` - Autenticação
+- `Auth/RegisterController` - Registro de usuários
+
+### Policies
+Todas as models possuem policies configuradas (atualmente retornando `true` para todas as operações, preparadas para integração futura com serviços de autorização).
+
+## 🔐 Autenticação
+
+O sistema inclui autenticação básica com:
+- **Login/Logout**
+- **Registro de novos usuários**
+- **Proteção de rotas** com middleware `auth`
+- **Interface responsiva** para dispositivos móveis
+
+## 📱 Interface Responsiva
+
+A aplicação foi desenvolvida com Bootstrap 5, garantindo:
+- **Design responsivo** para desktop, tablet e mobile
+- **Sidebar colapsível** em dispositivos menores
+- **Modais** para ações rápidas
+- **Alertas e notificações** visuais
+- **Ícones intuitivos** do Bootstrap Icons
+
+## 🚀 Próximos Passos
+
+Este MVP está preparado para futuras integrações:
+
+1. **Microserviços de Autenticação/Autorização**
+   - Variáveis de ambiente já configuradas
+   - Policies preparadas para integração
+
+2. **API REST**
+   - Estrutura preparada para exposição de APIs
+   - Controllers organizados para reutilização
+
+3. **Notificações**
+   - Sistema de alertas para tarefas vencidas
+   - Lembretes por email/SMS
+
+4. **Relatórios Avançados**
+   - Gráficos interativos
+   - Exportação de dados
+   - Análises de produtividade
+
+## 🤝 Contribuição
+
+Este é um projeto acadêmico (TCC), mas contribuições são bem-vindas:
+
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+
+## 📞 Suporte
+
+Para dúvidas ou suporte:
+- Abra uma issue no GitHub
+- Entre em contato através do email do projeto
+
+---
+
+**Desenvolvido com ❤️ usando Laravel**
