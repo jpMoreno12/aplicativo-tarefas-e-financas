@@ -7,12 +7,14 @@ use App\Models\Goal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use function Pest\Laravel\json;
+
 class DashboardController extends Controller
 {
     /**
      * Display the dashboard.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
         

@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    container_name: tcc-financial-task 
+    ports:
+      - "8001:8001"
+    volumes:
+      - .:/app
+    networks:
+      - laravel-net
+
+networks:
+  laravel-net:
+    external: true
+    name: nans-cacum-laravel_laravel-net

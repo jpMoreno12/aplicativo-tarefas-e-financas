@@ -31,8 +31,10 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::view('/hello', 'hello');
 
-Route::middleware('auth')->group(function () {
+
+Route::middleware('passport.authenticator')->group(function () {
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -45,13 +47,19 @@ Route::middleware('auth')->group(function () {
     
     // Goals
     Route::resource('goals', GoalController::class);
-
+    
     // Finances
     Route::get('/finances', [FinanceController::class, 'index'])->name('finances.index');
     Route::post('/finances/expense', [FinanceController::class, 'storeExpense'])->name('finances.expense.store');
     Route::delete('/finances/expense/{expense}', [FinanceController::class, 'destroyExpense'])->name('finances.expense.destroy');
     Route::patch('/finances/income', [FinanceController::class, 'updateIncome'])->name('finances.income.update');
-
+    
     // Calendar
     Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar.index');
+});
+
+
+
+Route::middleware('auth')->group(function () {
+
 });

@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 
 class RegisterController extends Controller
 {
@@ -17,19 +18,32 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
         ]);
-
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+        
+        $response = Http::post(config('services.authenticator.url') . '/api/user/create', [
+            "name" => $validated['name'],
+            "email" => $validated['email'],
+            "password" => $validated['password']
         ]);
 
-        Auth::login($user);
+        if (!$response->successful()) {
+            return back()
+                ->withErrors(['email' => 'Este e-mail já está cadastrado.'])
+                ->withInput();
+        }
+
+
+        //$user = User::create([
+        //    'name' => $request->name,
+        //    'email' => $request->email,
+        //    'password' => Hash::make($request->password),
+        //]);
+
+        //Auth::login($user);
 
         return redirect()->route('dashboard');
     }
