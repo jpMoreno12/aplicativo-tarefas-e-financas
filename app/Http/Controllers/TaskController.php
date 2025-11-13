@@ -80,7 +80,7 @@ class TaskController extends Controller
         ]);
 
         $user = Auth::user();
-        
+
         // Get the next position
         $maxPosition = Task::where('user_id', $user->id)->max('position') ?? 0;
 
