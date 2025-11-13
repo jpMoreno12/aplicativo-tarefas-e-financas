@@ -55,27 +55,55 @@
                                                 <div class="d-flex justify-content-between align-items-center mb-1">
                                                     <span class="fw-bold">{{ $day['day'] }}</span>
                                                     @if($day['is_current_month'])
-                                                        <small class="text-muted">{{ $day['tasks']->count() }}</small>
+                                                        <small class="text-muted">
+                                                            @if($day['tasks']->count() > 0 || $day['expenses']->count() > 0)
+                                                                {{ $day['tasks']->count() + $day['expenses']->count() }}
+                                                            @endif
+                                                        </small>
                                                     @endif
                                                 </div>
                                                 
-                                                @if($day['is_current_month'] && $day['tasks']->count() > 0)
-                                                    @foreach($day['tasks']->take(3) as $task)
+                                                @if($day['is_current_month'])
+                                                    @php
+                                                        $itemsShown = 0;
+                                                        $maxItems = 3;
+                                                    @endphp
+                                                    
+                                                    {{-- Show tasks --}}
+                                                    @foreach($day['tasks']->take($maxItems - $itemsShown) as $task)
                                                         <div class="task-badge badge {{ $task->isCompleted() ? 'bg-success' : ($task->due_date->isPast() ? 'bg-danger' : 'bg-primary') }} d-block text-start mb-1" 
-                                                             title="{{ $task->title }}">
+                                                             title="Tarefa: {{ $task->title }}">
                                                             <small>
                                                                 @if($task->isCompleted())
                                                                     <i class="bi bi-check"></i>
                                                                 @elseif($task->due_date->isPast())
                                                                     <i class="bi bi-exclamation"></i>
+                                                                @else
+                                                                    <i class="bi bi-list-task"></i>
                                                                 @endif
-                                                                {{ Str::limit($task->title, 15) }}
+                                                                {{ Str::limit($task->title, 12) }}
                                                             </small>
                                                         </div>
+                                                        @php $itemsShown++; @endphp
                                                     @endforeach
                                                     
-                                                    @if($day['tasks']->count() > 3)
-                                                        <small class="text-muted">+{{ $day['tasks']->count() - 3 }} mais</small>
+                                                    {{-- Show expenses --}}
+                                                    @foreach($day['expenses']->take($maxItems - $itemsShown) as $expense)
+                                                        <div class="task-badge badge bg-warning d-block text-start mb-1" 
+                                                             title="Despesa: {{ $expense->name }} - R$ {{ number_format($expense->amount, 2, ',', '.') }}">
+                                                            <small>
+                                                                <i class="bi bi-currency-dollar"></i>
+                                                                {{ Str::limit($expense->name, 10) }}
+                                                            </small>
+                                                        </div>
+                                                        @php $itemsShown++; @endphp
+                                                    @endforeach
+                                                    
+                                                    @php
+                                                        $totalItems = $day['tasks']->count() + $day['expenses']->count();
+                                                    @endphp
+                                                    @if($totalItems > $maxItems)
+                                                        <small class="text-muted">+{{ $totalItems - $maxItems }} mais</small>
                                                     @endif
                                                 @endif
                                             </div>
@@ -151,6 +179,66 @@
 </div>
 @endif
 
+<!-- Expenses List for Selected Month -->
+@if($expenses->count() > 0)
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0"><i class="bi bi-currency-dollar"></i> Despesas do Mês</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    @foreach($expenses->groupBy(function($expense) { return $expense->date->format('Y-m-d'); }) as $date => $dayExpenses)
+                        <div class="col-md-6 col-lg-4 mb-3">
+                            <div class="card">
+                                <div class="card-header py-2">
+                                    <h6 class="mb-0">
+                                        {{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}
+                                        <small class="text-muted">({{ \Carbon\Carbon::parse($date)->format('l') }})</small>
+                                    </h6>
+                                </div>
+                                <div class="card-body py-2">
+                                    @foreach($dayExpenses as $expense)
+                                        <div class="d-flex justify-content-between align-items-center mb-2">
+                                            <div class="flex-grow-1">
+                                                <span>{{ $expense->name }}</span>
+                                                @if($expense->category)
+                                                    <span class="badge bg-secondary">{{ $expense->category }}</span>
+                                                @endif
+                                            </div>
+                                            <div class="text-end">
+                                                <strong class="text-danger">R$ {{ number_format($expense->amount, 2, ',', '.') }}</strong>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                    <hr class="my-2">
+                                    <div class="d-flex justify-content-between">
+                                        <strong>Total do dia:</strong>
+                                        <strong class="text-danger">R$ {{ number_format($dayExpenses->sum('amount'), 2, ',', '.') }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <div class="alert alert-info">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span><strong>Total de Despesas do Mês:</strong></span>
+                                <span class="h5 mb-0 text-danger">R$ {{ number_format($expenses->sum('amount'), 2, ',', '.') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+
 <!-- Legend -->
 <div class="row mt-3">
     <div class="col-12">
@@ -168,6 +256,10 @@
                     <div class="d-flex align-items-center">
                         <span class="badge bg-danger me-2">&nbsp;</span>
                         <small>Tarefas Atrasadas</small>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="badge bg-warning me-2">&nbsp;</span>
+                        <small>Despesas</small>
                     </div>
                     <div class="d-flex align-items-center">
                         <div class="calendar-day today me-2" style="width: 20px; height: 20px; border-radius: 3px;"></div>

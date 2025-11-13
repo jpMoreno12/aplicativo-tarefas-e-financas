@@ -21,12 +21,17 @@
                             <span class="{{ $task->isCompleted() ? 'task-completed' : '' }}">
                                 {{ $task->title }}
                             </span>
-                            @if($task->category)
-                                <span class="badge bg-secondary ms-2">{{ $task->category->name }}</span>
-                            @endif
-                            @if($task->goal)
-                                <span class="badge bg-info ms-1">{{ $task->goal->title }}</span>
-                            @endif
+                            <div class="mt-1">
+                                <span class="badge {{ $task->getPriorityBadgeClass() }}">
+                                    <i class="{{ $task->getPriorityIcon() }}"></i> {{ $task->getPriorityLabel() }}
+                                </span>
+                                @if($task->category)
+                                    <span class="badge bg-secondary">{{ $task->category->name }}</span>
+                                @endif
+                                @if($task->goal)
+                                    <span class="badge bg-info">{{ $task->goal->title }}</span>
+                                @endif
+                            </div>
                         </div>
                         <form method="POST" action="{{ route('tasks.toggle', $task) }}" class="d-inline">
                             @csrf

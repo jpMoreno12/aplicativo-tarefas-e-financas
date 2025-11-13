@@ -19,6 +19,7 @@ class Task extends Model
         'completed_at',
         'reward',
         'position',
+        'priority',
     ];
 
     protected $casts = [
@@ -90,5 +91,58 @@ class Task extends Model
     {
         $this->completed_at = null;
         $this->save();
+    }
+
+    /**
+     * Get priority levels array.
+     */
+    public static function getPriorityLevels()
+    {
+        return [
+            'muito_facil' => 'Muito Fácil',
+            'facil' => 'Fácil',
+            'medio' => 'Médio',
+            'dificil' => 'Difícil',
+            'muito_dificil' => 'Muito Difícil',
+        ];
+    }
+
+    /**
+     * Get priority label.
+     */
+    public function getPriorityLabel()
+    {
+        $levels = self::getPriorityLevels();
+        return $levels[$this->priority] ?? 'Médio';
+    }
+
+    /**
+     * Get priority badge class.
+     */
+    public function getPriorityBadgeClass()
+    {
+        return match($this->priority) {
+            'muito_facil' => 'bg-success',
+            'facil' => 'bg-info',
+            'medio' => 'bg-warning',
+            'dificil' => 'bg-danger',
+            'muito_dificil' => 'bg-dark',
+            default => 'bg-warning',
+        };
+    }
+
+    /**
+     * Get priority icon.
+     */
+    public function getPriorityIcon()
+    {
+        return match($this->priority) {
+            'muito_facil' => 'bi-circle',
+            'facil' => 'bi-circle-half',
+            'medio' => 'bi-dash-circle',
+            'dificil' => 'bi-exclamation-circle',
+            'muito_dificil' => 'bi-exclamation-triangle-fill',
+            default => 'bi-dash-circle',
+        };
     }
 }
