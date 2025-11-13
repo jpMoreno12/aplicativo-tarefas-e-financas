@@ -39,13 +39,25 @@
                                 </div>
                                 
                                 @if($goal->tasks_count > 0)
-                                    <div class="progress mt-2" style="height: 8px;">
-                                        <div class="progress-bar bg-success" 
-                                             style="width: {{ ($goal->completed_tasks_count / $goal->tasks_count) * 100 }}%">
+                                    @php
+                                        $percentage = round(($goal->completed_tasks_count / $goal->tasks_count) * 100);
+                                        $moodIcon = '😐'; // Padrão sério
+                                        if ($percentage >= 75) {
+                                            $moodIcon = '😄'; // Feliz
+                                        } elseif ($percentage >= 25) {
+                                            $moodIcon = '🙂'; // Neutro/OK
+                                        }
+                                    @endphp
+                                    <div class="d-flex justify-content-between align-items-center mt-2">
+                                        <div class="progress flex-grow-1 me-2" style="height: 8px;">
+                                            <div class="progress-bar bg-success" 
+                                                 style="width: {{ $percentage }}%">
+                                            </div>
                                         </div>
+                                        <span style="font-size: 1.2rem;">{{ $moodIcon }}</span>
                                     </div>
                                     <small class="text-muted">
-                                        {{ round(($goal->completed_tasks_count / $goal->tasks_count) * 100) }}% concluído
+                                        {{ $percentage }}% concluído
                                     </small>
                                 @endif
                             </div>

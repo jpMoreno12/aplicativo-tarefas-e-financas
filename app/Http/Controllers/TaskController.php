@@ -77,6 +77,7 @@ class TaskController extends Controller
             'parent_id' => 'nullable|exists:tasks,id',
             'due_date' => 'nullable|date',
             'reward' => 'nullable|string|max:255',
+            'priority' => 'nullable|in:muito_facil,facil,medio,dificil,muito_dificil',
         ]);
 
         $user = Auth::user();
@@ -92,6 +93,7 @@ class TaskController extends Controller
             'parent_id' => $request->parent_id,
             'due_date' => $request->due_date,
             'reward' => $request->reward,
+            'priority' => $request->priority ?? 'medio',
             'position' => $maxPosition + 1,
         ]);
 
@@ -143,6 +145,7 @@ class TaskController extends Controller
             'parent_id' => 'nullable|exists:tasks,id',
             'due_date' => 'nullable|date',
             'reward' => 'nullable|string|max:255',
+            'priority' => 'nullable|in:muito_facil,facil,medio,dificil,muito_dificil',
         ]);
 
         $task->update([
@@ -152,6 +155,7 @@ class TaskController extends Controller
             'parent_id' => $request->parent_id,
             'due_date' => $request->due_date,
             'reward' => $request->reward,
+            'priority' => $request->priority ?? 'medio',
         ]);
 
         return redirect()->route('tasks.index')->with('success', 'Tarefa atualizada com sucesso!');

@@ -76,7 +76,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="due_date" class="form-label">Data de Vencimento</label>
                                 <input type="date" class="form-control @error('due_date') is-invalid @enderror" 
@@ -87,7 +87,24 @@
                             </div>
                         </div>
                         
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="priority" class="form-label">Prioridade</label>
+                                <select class="form-select @error('priority') is-invalid @enderror" 
+                                        id="priority" name="priority">
+                                    @foreach(\App\Models\Task::getPriorityLevels() as $key => $label)
+                                        <option value="{{ $key }}" {{ old('priority', $task->priority ?? 'medio') == $key ? 'selected' : '' }}>
+                                            {{ $label }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('priority')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
                             <div class="mb-3">
                                 <label for="reward" class="form-label">Recompensa</label>
                                 <input type="text" class="form-control @error('reward') is-invalid @enderror" 

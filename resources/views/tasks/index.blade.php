@@ -68,6 +68,9 @@
                             </h6>
                             
                             <div class="mb-2">
+                                <span class="badge {{ $task->getPriorityBadgeClass() }}">
+                                    <i class="{{ $task->getPriorityIcon() }}"></i> {{ $task->getPriorityLabel() }}
+                                </span>
                                 @if($task->category)
                                     <span class="badge bg-secondary">{{ $task->category->name }}</span>
                                 @endif

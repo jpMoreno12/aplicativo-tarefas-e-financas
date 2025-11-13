@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\Expense;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -31,13 +32,24 @@ class CalendarController extends Controller
             ->orderBy('due_date')
             ->get();
         
+        // Get expenses in the selected month
+        $expenses = Expense::where('user_id', $user->id)
+            ->whereBetween('date', [$startDate, $endDate])
+            ->orderBy('date')
+            ->get();
+        
         // Group tasks by date
         $tasksByDate = $tasks->groupBy(function ($task) {
             return $task->due_date->format('Y-m-d');
         });
         
+        // Group expenses by date
+        $expensesByDate = $expenses->groupBy(function ($expense) {
+            return $expense->date->format('Y-m-d');
+        });
+        
         // Generate calendar data
-        $calendarData = $this->generateCalendarData($startDate, $endDate, $tasksByDate);
+        $calendarData = $this->generateCalendarData($startDate, $endDate, $tasksByDate, $expensesByDate);
         
         // Navigation data
         $prevMonth = $startDate->copy()->subMonth();
@@ -50,14 +62,15 @@ class CalendarController extends Controller
             'startDate',
             'prevMonth',
             'nextMonth',
-            'tasks'
+            'tasks',
+            'expenses'
         ));
     }
 
     /**
      * Generate calendar data for the view.
      */
-    private function generateCalendarData($startDate, $endDate, $tasksByDate)
+    private function generateCalendarData($startDate, $endDate, $tasksByDate, $expensesByDate = null)
     {
         $calendar = [];
         $current = $startDate->copy()->startOfWeek(Carbon::SUNDAY);
@@ -76,6 +89,7 @@ class CalendarController extends Controller
                     'is_current_month' => $date->month === $startDate->month,
                     'is_today' => $date->isToday(),
                     'tasks' => $tasksByDate->get($dateKey, collect()),
+                    'expenses' => $expensesByDate ? $expensesByDate->get($dateKey, collect()) : collect(),
                 ];
                 
                 $current->addDay();
