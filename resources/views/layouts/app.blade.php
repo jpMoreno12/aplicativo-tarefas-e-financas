@@ -43,6 +43,7 @@
             font-size: 0.75rem;
             margin-bottom: 2px;
         }
+
     </style>
 
     @stack('styles')
@@ -55,7 +56,7 @@
                 <div class="position-sticky pt-3">
                     <div class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-decoration-none">
                         <span class="fs-4 fw-bold text-primary">
-                            <i class="bi bi-check2-square"></i> TaskFinance
+                            <i class="bi bi-check2-square"></i> Financial Task 
                         </span>
                     </div>
                     

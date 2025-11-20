@@ -16,7 +16,7 @@
                     <div class="card-body">
                         <div class="text-center mb-4">
                             <h2 class="text-primary">
-                                <i class="bi bi-check2-square"></i> TaskFinance
+                                <i class="bi bi-check2-square"></i> Financial Task 
                             </h2>
                             <p class="text-muted">Faça login para continuar</p>
                         </div>

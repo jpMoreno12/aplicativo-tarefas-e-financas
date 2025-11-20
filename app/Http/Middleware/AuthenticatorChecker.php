@@ -26,7 +26,6 @@ class AuthenticatorChecker
             return response()->json(['error' => 'Invalid token'], 401);
         }
 
-        $request->merge($data->json());
 
         $user = new GenericUser($data->json());
                 

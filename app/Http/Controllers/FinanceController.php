@@ -99,6 +99,7 @@ class FinanceController extends Controller
         ]);
 
         $user = Auth::user();
+        
         $user->update([
             'monthly_income' => $request->monthly_income,
         ]);

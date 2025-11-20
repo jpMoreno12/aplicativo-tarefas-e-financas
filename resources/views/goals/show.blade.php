@@ -170,7 +170,7 @@
                                 <strong>Progredindo bem!</strong><br>
                                 <small class="text-muted">Você está no caminho certo!</small>
                             @else
-                                <strong>Quase lá!</strong><br>
+                                <strong>Parabéns!</strong><br>
                                 <small class="text-muted">Parabéns pelo progresso!</small>
                             @endif
                         </p>
